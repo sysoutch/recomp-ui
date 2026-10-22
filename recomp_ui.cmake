@@ -78,7 +78,10 @@ function(_recomp_ui_utf8_manifest TGT)
     # keeps its own.
     get_target_property(_srcs ${TGT} SOURCES)
     foreach(_src IN LISTS _srcs)
-        if(_src MATCHES "\\.manifest$" OR _src MATCHES "manifest\\.rc$")
+        # psxrecomp_windows_manifest() adds its resource as an object library:
+        # $<TARGET_OBJECTS:<tgt>_manifest>.
+        if(_src MATCHES "\\.manifest$" OR _src MATCHES "manifest\\.rc$"
+           OR _src MATCHES "TARGET_OBJECTS:[^>]*_manifest>")
             return()
         endif()
     endforeach()
